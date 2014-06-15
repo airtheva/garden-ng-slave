@@ -55,7 +55,7 @@ Slave.on('mount', function(data) {
 
 		m.heartbeat.on('message', function(msg, rinfo) {
 
-			if (msg.length == 1 && msg[0] == 0x00) {
+			if(msg.length == 1 && msg[0] == 0x00) {
 
 				console.log('heartbeat, receive.');
 
@@ -69,11 +69,18 @@ Slave.on('mount', function(data) {
 				m.heartbeat.send(msg, 0, msg.length, m.server.port, m.server.address);
 
 			}
-			else {
+			else if(m.client) {
 
-				m.listen.send(msg, 0, msg.length, m.client.port, m.client.address);
+					m.listen.send(msg, 0, msg.length, m.client.port, m.client.address);
 
 			}
+			else {
+
+				console.log('heartbeat, unknown.');
+
+			}
+
+
 
 		});
 
